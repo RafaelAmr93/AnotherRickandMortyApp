@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="page_nav_style" >
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:backgroundTint">#FEFCF3</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">8sp</item>
+        <item name="paddingEnd">10dp</item>
+    </style>
+</resources>
