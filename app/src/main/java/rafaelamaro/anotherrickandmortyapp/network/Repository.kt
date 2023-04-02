@@ -5,6 +5,4 @@ import rafaelamaro.anotherrickandmortyapp.network.paging.EpisodePagingSource
 
 class RickAndMortyRepository {
     fun characterPagingSource() = CharacterPagingSource()
-
-    fun episodePagingSource() = EpisodePagingSource()
 }
