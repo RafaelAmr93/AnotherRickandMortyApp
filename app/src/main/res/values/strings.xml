@@ -13,4 +13,9 @@
     <string name="logo_desc">App logo with Rick and Morty</string>
     <string name="episodes_button">Episodes</string>
     <string name="characters_button">Characters</string>
+    <string name="search_placeholder">Search…</string>
+    <string name="character_name_placeholder">Character Name</string>
+    <string name="fragment_overview">fragment_overview</string>
+    <string name="overview_fragment" />
+    <string name="characterDetail" />
 </resources>

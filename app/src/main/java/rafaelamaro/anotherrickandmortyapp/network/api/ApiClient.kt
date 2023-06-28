@@ -3,7 +3,6 @@ package rafaelamaro.anotherrickandmortyapp.network.api
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import rafaelamaro.anotherrickandmortyapp.network.data.CharacterPagedResponse
-import rafaelamaro.anotherrickandmortyapp.network.data.EpisodePagedResponse
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -17,7 +16,8 @@ private val moshi = Moshi
     .add(KotlinJsonAdapterFactory())
     .build()
 
-private val retrofit = Retrofit.Builder()
+private val retrofit = Retrofit
+    .Builder()
     .baseUrl(BASE_URL)
     .addConverterFactory(MoshiConverterFactory.create(moshi))
     .build()
@@ -25,9 +25,6 @@ private val retrofit = Retrofit.Builder()
 interface ApiService {
     @GET("character/")
     suspend fun getCharacters(@Query("page") page: Int): Response<CharacterPagedResponse>
-
-    @GET("episode/")
-    suspend fun getEpisodes(@Query("page") page: Int): Response<EpisodePagedResponse>
 }
 
 object ApiClient {

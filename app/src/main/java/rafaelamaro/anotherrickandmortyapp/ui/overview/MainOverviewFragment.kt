@@ -9,15 +9,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import rafaelamaro.anotherrickandmortyapp.databinding.FragmentMainOverviewBinding
 import rafaelamaro.anotherrickandmortyapp.ui.character.CharacterListAdapter
-import rafaelamaro.anotherrickandmortyapp.ui.episode.EpisodeListAdapter
 
 class MainOverviewFragment : Fragment() {
 
     private lateinit var binding: FragmentMainOverviewBinding
+    private val viewModel: OverviewViewModel by viewModels { OverviewViewModel.Factory }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,37 +26,39 @@ class MainOverviewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentMainOverviewBinding.inflate(inflater, container, false)
-
-        val viewModel: OverviewViewModel by viewModels { OverviewViewModel.Factory }
-
-        // Characters
-        val pagingDataCharacter = CharacterListAdapter()
-        val characters = viewModel.characters
-        binding.character.setOnClickListener {
-            binding.overviewList.adapter = pagingDataCharacter
-            viewLifecycleOwner.lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    characters.collectLatest {
-                        pagingDataCharacter.submitData(it)
-                    }
-                }
-            }
-        }
-
-        // Episodes
-        val pagingDataEpisode = EpisodeListAdapter()
-        val episodes = viewModel.episodes
-        binding.episodes.setOnClickListener {
-            binding.overviewList.adapter = pagingDataEpisode
-            viewLifecycleOwner.lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.CREATED) {
-                    episodes.collectLatest {
-                        pagingDataEpisode.submitData(it)
-                    }
-                }
-            }
-        }
-
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        getCharacters()
+        observeCharacterClick()
+    }
+
+    private fun getCharacters() {
+        val pagingDataCharacter = CharacterListAdapter(CharacterListAdapter.OnClickListener {
+            viewModel.displayCharacterDetail(it)
+        })
+        val characters = viewModel.characters
+        binding.overviewList.adapter = pagingDataCharacter
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                characters.collectLatest {
+                    pagingDataCharacter.submitData(it)
+                }
+            }
+        }
+    }
+
+    private fun observeCharacterClick() {
+        viewModel.characterDetail.observe(viewLifecycleOwner) {
+            if (it != null) {
+                this.findNavController().navigate(
+                    MainOverviewFragmentDirections.actionFirstFragmentToSecondFragment(it)
+                )
+                viewModel.displayCharacterDetailComplete()
+            }
+        }
     }
 }

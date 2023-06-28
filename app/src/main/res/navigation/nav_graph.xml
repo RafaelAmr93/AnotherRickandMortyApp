@@ -3,26 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/overviewFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="rafaelamaro.anotherrickandmortyapp.FirstFragment"
-        android:label="@string/first_fragment_label"
+        android:id="@+id/overviewFragment"
+        android:name="rafaelamaro.anotherrickandmortyapp.ui.overview.MainOverviewFragment"
+        android:label="@string/overview_fragment"
         tools:layout="@layout/fragment_main_overview">
-
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            app:destination="@id/characterDetailFragment" />
     </fragment>
+
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="rafaelamaro.anotherrickandmortyapp.SecondFragment"
-        android:label="@string/second_fragment_label"
+        android:id="@+id/characterDetailFragment"
+        android:name="rafaelamaro.anotherrickandmortyapp.ui.overview.CharacterDetailFragment"
+        android:label="@string/characterDetail"
         tools:layout="@layout/fragment_character_detail">
 
+        <argument
+            android:name="characterDetail"
+            app:argType="rafaelamaro.anotherrickandmortyapp.network.data.CharacterData"
+            app:nullable="true" />
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_characterDetailFragment_to_nav_graph"
+            app:popUpTo="@id/nav_graph" />
+
     </fragment>
+
 </navigation>

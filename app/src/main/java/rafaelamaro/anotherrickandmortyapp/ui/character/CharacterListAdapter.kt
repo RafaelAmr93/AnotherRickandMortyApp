@@ -11,7 +11,8 @@ import rafaelamaro.anotherrickandmortyapp.R
 import rafaelamaro.anotherrickandmortyapp.databinding.CardCharacterBinding
 import rafaelamaro.anotherrickandmortyapp.network.data.CharacterData
 
-class CharacterListAdapter : PagingDataAdapter<CharacterData, CharacterListAdapter.MainViewHolder>(DiffCallback) {
+class CharacterListAdapter (private val onClickListener: OnClickListener) :
+    PagingDataAdapter<CharacterData, CharacterListAdapter.MainViewHolder>(DiffCallback) {
 
     inner class MainViewHolder(private var binding: CardCharacterBinding)
         : RecyclerView.ViewHolder(binding.root) {
@@ -31,6 +32,11 @@ class CharacterListAdapter : PagingDataAdapter<CharacterData, CharacterListAdapt
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val character = getItem(position)
+        character?.let {
+            holder.itemView.setOnClickListener {
+                onClickListener.onClick(character)
+            }
+        }
         holder.bind(character)
     }
 
@@ -41,5 +47,9 @@ class CharacterListAdapter : PagingDataAdapter<CharacterData, CharacterListAdapt
         override fun areContentsTheSame(oldItem: CharacterData, newItem: CharacterData): Boolean {
             return oldItem.name == newItem.name
         }
+    }
+
+    class OnClickListener(val clickListener: (character: CharacterData) -> Unit) {
+        fun onClick(character: CharacterData) = clickListener(character)
     }
 }
