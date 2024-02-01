@@ -10,7 +10,9 @@ import rafaelamaro.anotherrickandmortyapp.ui.character.CharacterCard
 @Composable
 fun MainListScreen(charactersList: LazyPagingItems<CharacterData>) {
 
-    LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2)
+    ) {
         items(charactersList.itemCount) { index ->
             charactersList[index]?.let { character ->
                 CharacterCard(character = character)
