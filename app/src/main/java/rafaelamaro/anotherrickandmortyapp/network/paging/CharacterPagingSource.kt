@@ -1,9 +1,12 @@
 package rafaelamaro.anotherrickandmortyapp.network.paging
 
+import android.net.Uri
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import rafaelamaro.anotherrickandmortyapp.network.api.ApiClient.apiService
 import rafaelamaro.anotherrickandmortyapp.network.data.CharacterData
+
+private const val STARTING_KEY = 1
 
 class CharacterPagingSource : PagingSource<Int, CharacterData>() {
     override fun getRefreshKey(state: PagingState<Int, CharacterData>): Int? {
@@ -14,17 +17,27 @@ class CharacterPagingSource : PagingSource<Int, CharacterData>() {
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CharacterData> {
-        return try {
-            val page = params.key ?: 1
-            val response = apiService.getCharacters(page = page)
+        val pageNumber = params.key ?: STARTING_KEY
 
-            LoadResult.Page(
-                data = response.result,
-                prevKey = if (page == 1) null else page.minus(1),
-                nextKey = if (response.result.isEmpty()) null else page.plus(1),
+        return try {
+            val response = apiService.getCharacters(pageNumber)
+            val pagedResponse = response.body()
+            val data = pagedResponse?.result
+            var nextPageNumber: Int? = null
+
+            if (pagedResponse?.pageInfo?.next != null) {
+                val uri = Uri.parse(pagedResponse.pageInfo.next)
+                val nextPageQuery = uri.getQueryParameter("page")
+                nextPageNumber = nextPageQuery?.toInt()
+            }
+
+            return LoadResult.Page(
+                data = data.orEmpty(),
+                prevKey = null,
+                nextKey = nextPageNumber
             )
         } catch (e: Exception) {
-            LoadResult.Error(e)
+            LoadResult.Error(throwable = Throwable("Error creating page $e"))
         }
         TODO("checar se os personagens da ultima pagina estao sendo chamados")
     }

@@ -24,7 +24,7 @@ private val retrofit = Retrofit
 
 interface ApiService {
     @GET("character/")
-    suspend fun getCharacters(@Query("page") page: Int): CharacterPagedResponse
+    suspend fun getCharacters(@Query("page") page: Int): Response<CharacterPagedResponse>
 }
 
 object ApiClient {
