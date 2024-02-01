@@ -3,23 +3,20 @@ package rafaelamaro.anotherrickandmortyapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.ui.Modifier
+import androidx.activity.viewModels
+import androidx.paging.compose.collectAsLazyPagingItems
+import rafaelamaro.anotherrickandmortyapp.ui.list.MainListScreen
+import rafaelamaro.anotherrickandmortyapp.ui.list.MainListViewModel
 
 class MainActivity : ComponentActivity() {
+    private val viewModel: MainListViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
-            // A surface container using the 'background' color from the theme
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                color = MaterialTheme.colorScheme.background
-            ) {
-                Text("Android")
-            }
+
+            val charactersList = viewModel.getCharactersList().collectAsLazyPagingItems()
+            MainListScreen(charactersList = charactersList)
         }
     }
 }
