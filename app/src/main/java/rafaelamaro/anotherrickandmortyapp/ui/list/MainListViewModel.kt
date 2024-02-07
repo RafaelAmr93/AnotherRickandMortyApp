@@ -1,9 +1,11 @@
 package rafaelamaro.anotherrickandmortyapp.ui.list
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import kotlinx.coroutines.flow.Flow
 import rafaelamaro.anotherrickandmortyapp.network.data.CharacterData
 import rafaelamaro.anotherrickandmortyapp.network.paging.CharacterPagingSource
@@ -18,6 +20,6 @@ class MainListViewModel : ViewModel() {
             pagingSourceFactory = {
                 CharacterPagingSource()
             }
-        ).flow
+        ).flow.cachedIn(viewModelScope)
     }
 }

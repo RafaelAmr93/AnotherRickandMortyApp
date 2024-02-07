@@ -12,9 +12,7 @@ class MainActivity : ComponentActivity() {
     private val viewModel: MainListViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
-
             val charactersList = viewModel.getCharactersList().collectAsLazyPagingItems()
             MainListScreen(charactersList = charactersList)
         }
