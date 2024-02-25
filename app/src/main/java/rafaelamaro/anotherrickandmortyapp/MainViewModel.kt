@@ -1,4 +1,4 @@
-package rafaelamaro.anotherrickandmortyapp.ui.list
+package rafaelamaro.anotherrickandmortyapp
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import rafaelamaro.anotherrickandmortyapp.network.data.CharacterData
 import rafaelamaro.anotherrickandmortyapp.network.paging.CharacterPagingSource
 
-class MainListViewModel : ViewModel() {
+class MainViewModel : ViewModel() {
 
     fun getCharactersList(): Flow<PagingData<CharacterData>> {
         return Pager(

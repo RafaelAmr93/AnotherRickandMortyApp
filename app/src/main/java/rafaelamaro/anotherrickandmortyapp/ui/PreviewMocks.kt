@@ -22,7 +22,7 @@ private val characterDataMock = CharacterData(
 
 private val characterListMock = flowOf(
     PagingData.from(
-        List(size = 6) {
+        List(size = 20) {
             CharacterData(
                 name = "Morty",
                 image = "",

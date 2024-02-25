@@ -1,19 +1,21 @@
 package rafaelamaro.anotherrickandmortyapp.ui.character
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -28,19 +30,18 @@ import rafaelamaro.anotherrickandmortyapp.ui.getCharacterDataMock
 
 @Composable
 fun CharacterCard(character: CharacterData) {
-    ElevatedCard(
-        modifier = Modifier.padding(10.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFeaeaea)),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-    ) {
         Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .shadow(elevation = 3.dp, shape = RoundedCornerShape(10.dp))
+                .background(
+                    Color(0xFFeaeaea)
+                )
         ) {
             CharacterImage(character.image)
             CharacterText(character.name, character.status)
         }
-    }
 }
 
 @Composable
@@ -93,5 +94,9 @@ private fun statusIconColor(status: String): Color {
 @Preview
 @Composable
 private fun CharacterCardPreview() {
-    CharacterCard(getCharacterDataMock())
+    Box(modifier = Modifier
+        .background(Color.White)
+    ) {
+        CharacterCard(getCharacterDataMock())
+    }
 }
